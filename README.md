@@ -1,6 +1,6 @@
 # MiFi
 An engaging platform for artist communication wherein users can exchange their thoughts related to their art.
-This apllication helps artist find new people who have similar interests and exchange theirs ideas about their art.
+This application helps artist find new people who have similar interests and exchange theirs ideas about their art.
 Key Features:
 1. A Registeration and login page for authentication upon which each user will have their own profile and feed.
 2. Once logged in user can change profile picture, about and add creations(their handmade art)
