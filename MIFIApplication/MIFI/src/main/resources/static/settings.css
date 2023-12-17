@@ -1,0 +1,12 @@
+@charset "ISO-8859-1";
+body{
+    margin-bottom:2%;
+    background:url(fpBg.jpg);
+    background-size: cover;  
+    background-position: center;
+ background-repeat: no-repeat;
+  background-attachment: fixed; 
+}
+ul{
+	list-style-type: none;
+}

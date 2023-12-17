@@ -1,0 +1,49 @@
+@charset "ISO-8859-1";
+body{
+    margin-bottom:2%;
+    background:url(TimelineBG.gif);
+    background-size: cover;  
+    background-position: center;
+ background-repeat: no-repeat;
+  background-attachment: fixed; 
+}
+/*==================================================
+  Nearby People CSS
+  ==================================================*/
+.postbtn{
+top:100px;
+left:400px;
+
+}
+ul {
+  list-style-type: none;
+}
+
+
+
+.suggestions{
+  background: #f8f8f8;
+  border-radius: 1%;
+  border: 1% solid #f1f2f2;
+  padding: 1%;
+  margin-bottom: 2%;
+}
+
+.suggestions {
+  height: 95%;
+  width: 130%;
+  border: none;
+}
+
+.suggestions .suggest-user{
+  padding: 1% 0;
+  border-top: 1% solid #f1f2f2;
+  border-bottom: 1% solid #f1f2f2;
+  margin-bottom: 1%;
+}
+
+img.profile-photo-lg{
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}

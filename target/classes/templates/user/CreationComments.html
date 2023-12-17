@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org"
+   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="ISO-8859-1">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" >
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+ <link rel="stylesheet" th:href="@{~/settings.css}"></link>
+ <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<title>Feed | MiFi</title>
+ <link rel = "icon" th:href ="@{~/MiFiLogo.png}" 
+        type = "image/x-icon">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid " style="margin-bottom:-0.8rem">
+    <a class="navbar-brand pt-0 " style="margin-top:-1.2rem;"  href="#"><font  size=3.5rem><B>MiFi</B></font></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="width:0.8rem"></span>
+      </button>
+    <ul class="collapse navbar-collapse mr-auto"  id="navbarNav">
+      <!-- Avatar -->
+    <!--   <li>
+       <a class="navbar-brand pt-0 " style="margin-top:-1rem;"  href="#"><font  size=3.5rem><B>MiFi</B></font></a>
+      </li> -->
+      <li class="nav-item dropdown p-1">
+        <a
+          class="nav-link dropdown-toggle d-flex align-items-center"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+           th:src="@{'~/proPics/'+${user.userProPic}}"
+           style="min-width:1.6rem;max-width:1.6rem;min-height:1.6rem;max-height:1.6rem"
+            class="rounded-circle"
+            height="22"
+            alt="Portrait of a Woman"
+            loading="lazy"
+          />
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <li>
+            <a class="dropdown-item" th:href="@{/user/}">My Profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" th:href="@{~/user/settings}">Settings</a>
+          </li>
+          <li>
+            <a class="dropdown-item" 	th:href="@{~/logout}">Logout</a>
+          </li>
+        </ul>
+      </li>
+       <li class="nav-item p-2 dropdown" >
+        <a
+          class="nav-link dropdown-toggle d-flex align-items-center"
+          href="#"
+          id="navbarDropdownMenuLink2"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        ><img th:src="@{~/AddBuddyIcon.png}" style="width:1.6rem"><span class="badge rounded-pill badge-notification bg-danger">[[${reqC}]]</span> </a>
+        
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+          <li>
+            <a class="dropdown-item" th:href="@{~/user/buddy_sug}">Buddy Suggestions</a>
+          </li>
+          <li>
+            <a class="dropdown-item" th:href="@{~/user/buddy_req}">Buddy Requests</a>
+          </li>
+          </ul>
+        </li>
+        <li><a th:href="@{~/user/feed}"><img th:src="@{~/feedlogo.png}" style="width:1.8rem"></a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+
+<section class="row justify-content-center mt-3  ">
+
+  <div class="card " style="max-width: 38rem;margin-left:5%" >
+    <div class="card-body">
+      <!-- Data -->
+      <div class="d-flex mb-3">
+       <div class="row">
+        <div class="col-md-3">
+          <img th:src="@{'~/proPics/'+${uc.proPic}}" class="border rounded-circle me-2"
+            alt="Avatar" style="min-height: 2.5rem;max-height: 2.5rem;min-width: 2.5rem;max-width: 2.5rem" />
+		</div>
+        <div class="col-md-6">
+          <a th:href="@{/user/bud_profile/{userName}(userName=${uc.userName})}" class="text-dark mb-0">
+            <strong>[[${uc.firstName }+ ' ' +${uc.lastName }]]</strong>
+          </a>  <a href="" class="text-muted d-block" style="margin-top: -6px">
+            <small>[[${uc.creationDate }]]</small>
+          </a></div><div class="col-md-3">
+          <span th:if="${priv}">
+          <form th:action="@{/user/del_creation/{srNo}(srNo=${uc.srNo})} " th:method="post">
+          <button class="btn btn-danger btn-xs glyphicon glyphicon-trash">DELETE</button></form>
+         </span> </div> </div>
+       </div>
+      <!-- Description -->
+      <div class="row">
+        <p>
+        [[${uc.caption }]]
+        </p>
+      </div>
+    
+    <!-- Media -->
+    <div class="bg-image hover-overlay ripple rounded-0" data-mdb-ripple-color="light">
+      <img th:src="@{'~/creations/'+${uc.creation}}" class="w-100" style="max-width:35rem;max-height:32rem;min-width:35rem;min-height:32rem" />
+      <a href="#!">
+        <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+      </a>
+    </div>
+    <!-- Media -->
+    <!-- Interactions -->
+    <div class="card-body">
+      <!-- Reactions -->
+     
+      <!-- Buttons -->
+
+      <!-- Comments -->
+
+      <!-- Input -->
+      <div class="d-flex mb-3">
+        <a href="">
+          <img th:src="@{'~/proPics/'+${user.userProPic}}" class="border rounded-circle me-2"
+            alt="Avatar" style="height: 2.5rem" />
+        </a>
+        <div class="form-outline w-100">
+        <div class="row">
+         <div class="col-md-10 col-sm-10"> <textarea class="form-control" id="comment" name="comment" form="addcomment" rows="2"> 
+          </textarea></div><div class="col-md-2 col-sm-2"><form th:action="@{/user/addComment/{srNo}(srNo=${uc.srNo})}" method="post" id="addcomment"><div class="postbtn">
+					 <button id="post" type="submit" class="btn btn-success " style="position:relative;float:left" >Post</button></div>
+				  </form></div></div>
+          <label class="form-label" for="textAreaExample">Write a comment</label>
+        </div>
+      </div>
+      <!-- Input -->
+
+      <!-- Answers -->
+
+      <!-- Single answer -->
+      <div class="d-flex mb-3" th:each="c:${cc}">
+        <a href="">
+          <img th:src="@{'~/creations/'+${c.comProPic}}"class="border rounded-circle me-2"
+            alt="Avatar" style="max-width:2.5rem;max-height:2.5rem;min-width:2.5rem;min-height:2.5rem" />
+        </a>
+        <div>
+          <div class="bg-light rounded-3 px-3 py-1" >
+            <a href="" class="text-dark mb-0">
+              <strong>[[${c.comFirstName }+ ' ' +${c.comLastName }]]</strong>
+            </a>
+            <a href="" class="text-muted d-block">
+              <small>[[${c.comment }]]</small>
+            </a>
+          </div>
+         
+        </div>
+      </div>
+
+     
+      <!-- Answers -->
+
+      <!-- Comments -->
+    </div></div>
+    <!-- Interactions -->
+  </div>
+</section>
+
+</body>
+</html>

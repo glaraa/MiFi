@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <link href="C:\Users\Aspire\eclipse-workspace\MiFi\public\fontawesome-free-6.2.0-web\css\fontawesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" th:href="@{~/UserProfile.css}">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" >
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<!--   <script src="index.js" type = "text/javascript"></script> -->
+ <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<title>[[${buddy.firstName }+ ' ' +${buddy.lastName }]] | MiFi</title>
+ <link rel = "icon" th:href="@{~/MiFiLogo.png}" 
+        type = "image/x-icon">
+</head>
+<body>
+ 
+<!-- -----------------------------------------NAVBAR---------------------------------------------- --> 
+ 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid " style="margin-bottom:-0.8rem">
+    <a class="navbar-brand pt-0 " style="margin-top:-1.2rem;"  href="#"><font  size=3.5rem><B>MiFi</B></font></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="width:0.8rem"></span>
+      </button>
+    <ul class="collapse navbar-collapse mr-auto"  id="navbarNav">
+      <!-- Avatar -->
+    <!--   <li>
+       <a class="navbar-brand pt-0 " style="margin-top:-1rem;"  href="#"><font  size=3.5rem><B>MiFi</B></font></a>
+      </li> -->
+      <li class="nav-item dropdown p-1">
+        <a
+          class="nav-link dropdown-toggle d-flex align-items-center"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+           th:src="@{'~/proPics/'+${user.userProPic}}"
+           style="min-width:1.6rem;max-width:1.6rem;min-height:1.6rem;max-height:1.6rem"
+            class="rounded-circle"
+            height="22"
+            alt="Portrait of a Woman"
+            loading="lazy"
+          />
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <li>
+            <a class="dropdown-item" th:href="@{/user/}">My Profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" th:href="@{~/user/settings}">Settings</a>
+          </li>
+          <li>
+            <a class="dropdown-item" 	th:href="@{~/logout}">Logout</a>
+          </li>
+        </ul>
+      </li>
+       <li class="nav-item p-2 dropdown" >
+        <a
+          class="nav-link dropdown-toggle d-flex align-items-center"
+          href="#"
+          id="navbarDropdownMenuLink2"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        ><img th:src="@{~/AddBuddyIcon.png}" style="width:1.6rem"><span class="badge rounded-pill badge-notification bg-danger">[[${reqC}]]</span> </a>
+        
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+          <li>
+            <a class="dropdown-item" th:href="@{~/user/buddy_sug}">Buddy Suggestions</a>
+          </li>
+          <li>
+            <a class="dropdown-item" th:href="@{~/user/buddy_req}">Buddy Requests</a>
+          </li>
+          </ul>
+        </li>
+        <li><a th:href="@{~/user/feed}"><img th:src="@{~/feedlogo.png}" style="width:1.8rem"></a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- -----------------------------------------SECTION---------------------------------------------- -->
+
+
+ <section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+              <img th:src="@{'~/proPics/'+${buddy.userProPic}}"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="min-width: 150px;max-height: 150px;min-height:150px;max-width:150px; z-index: 1"/>
+             <th:block th:if="${check}"><button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"  
+                style="z-index: 1;">
+                Buddies
+              </button></th:block> 
+              <th:block th:if="${reqSent}"><button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"  
+                style="z-index: 1;">
+                Pending
+              </button></th:block> 
+               <th:block th:if="${!check} AND ${!reqSent} AND ${!reqRec}"><a type="button" th:href="@{/user/add_from_profile/{userName}(userName=${buddy.userName})}"  class="btn btn-outline-dark" data-mdb-ripple-color="dark"   
+                style="z-index: 1;">
+                Add
+              </a></th:block>
+              <th:block th:if="${reqRec}"><a type="button" th:href="@{/user/buddy_req}"  class="btn btn-outline-dark" data-mdb-ripple-color="dark"   
+                style="z-index: 1;">
+                Respond
+              </a></th:block> 
+              </div>
+              
+    
+<!-- -----------------------------------------BUDDY_DETAILS---------------------------------------------- -->    
+            
+            <div class="ms-3" style="margin-top: 8rem;">
+              <h5>[[${buddy.firstName }+ ' ' +${buddy.lastName }]]</h5>
+              <p>[[${buddy.userName}]]</p>
+            </div>
+          </div>
+          <div class="p-4 text-black" style="background-color: #f8f9fa;">
+            <div class="d-flex justify-content-end text-center py-1">
+              <div>
+                <p class="mb-1 h5">[[${count}]]</p>
+                <p class="small text-muted mb-0"><a href="#modal-success-addimg" data-bs-toggle="modal" data-bs-target="#modal-success-addimg" >Creations</a></p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">[[${budCount}]]</p>
+                <p class="small text-muted mb-0"><a href="#modal-success-addimg" data-bs-toggle="modal" data-bs-target="#modal-success-buddyview" >Buddies</a></p>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+      
+          
+ <!-- -----------------------------------------BUDDY'S_BUDDIES---------------------------------------------- -->         
+    
+          
+          
+         
+         
+                 <div id="modal-success-buddyview" tabindex="-1" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header ps-2"><h6>[[${buddy.firstName }]]'s Buddies</h6>
+                   <!-- Any pic if avail here.... -->
+                </div>
+              <!--  <div class="modal-title"></div>-->	
+                  <div class="modal-body">
+                  
+               
+               <div class="profile-container">
+        <div class="row row-space-20">
+            <div class="col-md-12">
+                <div class="tab-content p-0">
+           
+                    <div class="tab-pane fade active show" id="profile-friends">
+
+                             <ul class="friend-list clearfix"   th:each="bud:${budBud}">
+                            <li>
+                                
+                                   <div class="row pb-2">
+                                    <div class="col-md-3">
+                                    <div class="friend-img" ><img th:src="@{'~/proPics/'+${bud.userProPic}}" alt="" style="min-width:3rem;max-width:3rem;min-height:3rem;max-height:3rem;border-radius:50%"/></div></div>
+                                  <div class="col">   <div class="friend-info"></div>
+                                   <div class="row-md-6"> <a th:href="@{/user/bud_profile/{userName}(userName=${bud.userName})}"><small> [[${bud.firstName }+ ' ' +${bud.lastName }]]</small></a></div>
+                             
+                                    </div>
+                                
+                            </li>
+                            <hr>  
+                        </ul>
+                    </div></div></div>           
+            </div>
+               </div>
+               </div>     
+            </div> <!-- / .modal-content -->
+        </div> <!-- / .modal-dialog -->
+    </div>    
+         
+         
+         
+ <!-- ------------------------------BUDDY'S_ABOUT-------------------------------------- -->        
+         
+          <div class="card-body p-4 text-black">
+            <div class="mb-5">
+              <p class="lead fw-normal mb-1" id="About">About</p>
+              <div class="p-4" style="background-color: #f8f9fa;">
+                <p class="font-italic mb-1"> [[${buddy.userAbout}]]</p>
+              </div>
+            </div>
+
+            
+  <!-- ------------------------------BUDDY_CREATIONS------------------------------------------- -->          
+            
+            
+          <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0">Recent photos</p>
+            <!--   <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+            </div>
+      <span th:if="${check}">
+            <div class="row g-2" >
+              <div class="col mb-2" th:each="im:${budList}"><a th:href="@{/user/creation_det/{srNo}(srNo=${im.srNo})}" th:method="post">
+                <img th:src="@{'~/creations/'+${im.creation}}" style="max-width:260px;min-width:260px;max-height:260px;min-height:260px"
+                  alt="image 1" class="w-100 rounded-3"></a>
+                  
+       
+          </div>
+        </div></span>
+      </div>
+    </div>
+  </div></div></div>
+</section>
+ 
+ 
+ 
+</body>
+</html>

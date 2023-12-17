@@ -1,0 +1,14 @@
+@charset "ISO-8859-1";
+
+body{
+    margin-bottom:2%;
+    background:url(AddBuddiesbg.png);
+    background-size: cover;  
+    background-position: center;
+ background-repeat: no-repeat;
+  background-attachment: fixed; 
+}
+
+ul{
+	list-style-type: none;
+}
